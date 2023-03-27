@@ -4,18 +4,18 @@ import java.util.Scanner;
 public class Main {
     public static void main(String... args) throws NumberFormatException {
         String[] products = {"Хлеб", "Молоко", "Соль", "Сахар", "Печенье овсяное"};
-        int[] prices = {36, 65, 18, 65, 85};
+        int[] prices = {36, 65, 18, 60, 85};
         Basket basket = new Basket(products, prices);
         int productNum;
         int amount;
 
-        File basketFile = new File("basket.txt");
+        File basketFile = new File("basket.bin");
         Scanner scanner = new Scanner(System.in);
 
         if (basketFile.exists()) {
             System.out.println("Загрузить корзину");
             if (scanner.equals("")) {
-                basket = Basket.loadFromTxtFile(basketFile);
+                basket = Basket.loadFromBinFile(basketFile);
                 basket.printCart();
                 System.out.println(" ");
             } else {
@@ -65,7 +65,7 @@ public class Main {
                 continue;
             }
             basket.addToCart(productNum, amount);
-            basket.saveTxt(basketFile);
+            basket.saveBin(basketFile);
             basket.printCart();
         }
     }

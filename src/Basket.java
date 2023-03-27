@@ -32,7 +32,7 @@ public class Basket {
         System.out.println("Общий счет: " + sumProducts + " рублей.");
     }
 
-    public void saveTxt(File textFile) throws RuntimeException {
+    public void saveBin(File textFile) throws RuntimeException {
         try (FileWriter out = new FileWriter(textFile);) {
             for (String st : products) {
                 out.write(st + ", ");
@@ -50,7 +50,7 @@ public class Basket {
         }
     }
 
-    public static Basket loadFromTxtFile(File textFile) {
+    public static Basket loadFromBinFile(File textFile) {
         try (BufferedReader br = new BufferedReader(new FileReader(textFile))) {
             String productName = br.readLine();
             String price = br.readLine();
