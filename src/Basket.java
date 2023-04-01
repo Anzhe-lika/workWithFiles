@@ -1,4 +1,7 @@
+import com.google.gson.Gson;
+
 import java.io.*;
+import java.util.Scanner;
 public class Basket {
     protected String[] products;
     protected int[] price;
@@ -73,6 +76,36 @@ public class Basket {
             return new Basket(productStr, priceInt, amountInt);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void saveBin(File file) throws IOException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+            out.writeObject(this);
+        }
+    }
+
+    public static Basket loadFromBin(File file) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+            return (Basket) in.readObject();
+        }
+
+    }
+
+    public void saveToJSON(File textFile) throws IOException {
+        try (PrintWriter writer = new PrintWriter(textFile)) {
+            Gson gson = new Gson();
+            String json = gson.toJson(this);
+            writer.println(json);
+        }
+    }
+
+    public static Basket loadFromJSON(File textFile) throws FileNotFoundException {
+        try (Scanner scanner = new Scanner(new FileInputStream(textFile))) {
+            String json = scanner.nextLine();
+            Gson gson = new Gson();
+            FileReader reader = new FileReader(textFile);
+            return gson.fromJson(reader, Basket.class);
         }
     }
 }
